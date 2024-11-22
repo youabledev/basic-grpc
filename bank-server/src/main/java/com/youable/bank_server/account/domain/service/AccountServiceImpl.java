@@ -8,9 +8,26 @@ import com.youable.bank_server.common.util.BigDecimalConverter;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 @RequiredArgsConstructor
 public class AccountServiceImpl extends AccountServiceGrpc.AccountServiceImplBase {
     private final AccountRepository accountRepository;
+
+    @Override
+    public void registAccount(AccountProto.RegistAccountRequest request, StreamObserver<AccountProto.RegistAccountResponse> responseObserver) {
+        BigDecimal balance = BigDecimalConverter.fromString(request.getBalance());
+        long userId = request.getUserId();
+
+        Account account = Account.builder()
+                .accountNumber(UUID.randomUUID().toString())
+                .balance(balance)
+                .userId(userId)
+                .build();
+
+        accountRepository.save(account);
+    }
 
     // 계좌조회
     @Override
@@ -25,6 +42,8 @@ public class AccountServiceImpl extends AccountServiceGrpc.AccountServiceImplBas
                 .build();
         // 클라이언트에게 응답 전달
         responseObserver.onNext(response);
+        // 에러를 전달해야 하는 경우
+//        responseObserver.onError(new RuntimeException("Account not found"));
         responseObserver.onCompleted();
     }
 }

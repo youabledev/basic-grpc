@@ -2,6 +2,8 @@ package com.youable.bank_server.account.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -24,6 +26,7 @@ public class Account {
     private BigDecimal balance;
 
     @Column(nullable = false)
+    @ColumnDefault("true")
     private boolean isActive;
 
     @Column(nullable = false)
@@ -36,4 +39,15 @@ public class Account {
     @Column(nullable = false)
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @Builder
+    public Account(
+            String accountNumber,
+            BigDecimal balance,
+            Long userId
+    ) {
+            this.accountNumber = accountNumber;
+            this.balance = balance;
+            this.userId = userId;
+    }
 }
