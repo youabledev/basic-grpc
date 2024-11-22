@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_package = "com.youable.bank_server";
+option java_outer_classname = "BankProto";
+
+service BankService {
+    rpc getAccountDetails (AccountRequest) returns (AccountResponse);
+}
+
+message AccountRequest {
+    string accountNumber = 1;
+}
+
+message AccountResponse {
+    string accountNumber = 1;
+    string accountHolder = 2;
+    double balance = 3;
+}
