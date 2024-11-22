@@ -7,10 +7,12 @@ import com.youable.bank_server.account.domain.repository.AccountRepository;
 import com.youable.bank_server.common.util.BigDecimalConverter;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
+import net.devh.boot.grpc.server.service.GrpcService;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@GrpcService
 @RequiredArgsConstructor
 public class AccountServiceImpl extends AccountServiceGrpc.AccountServiceImplBase {
     private final AccountRepository accountRepository;
@@ -27,6 +29,13 @@ public class AccountServiceImpl extends AccountServiceGrpc.AccountServiceImplBas
                 .build();
 
         accountRepository.save(account);
+
+        AccountProto.RegistAccountResponse response = AccountProto.RegistAccountResponse.newBuilder()
+                .setAccountNumber(account.getAccountNumber())
+                .setUserId(account.getUserId())
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     // 계좌조회

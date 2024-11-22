@@ -20,7 +20,8 @@ message RegistAccountRequest {
 }
 
 message RegistAccountResponse {
-
+    string accountNumber = 1;
+    int64 userId = 2;
 }
 
 message AccountRequest {
