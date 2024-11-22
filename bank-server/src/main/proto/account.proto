@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option java_package = "com.youable.bank_server";
+option java_outer_classname = "AccountProto";
+
+service AccountService {
+    // 계좌 등록
+    rpc registAccount (RegistAccountRequest) returns (RegistAccountResponse);
+    // 계좌 정보 조회
+    rpc getAccountDetails (AccountRequest) returns (AccountResponse);
+    // 입금
+    rpc depositAmount (TransactionRequest) returns (TransactionResponse);
+    // 출금
+    rpc withdrawAmount (TransactionRequest) returns (TransactionResponse);
+}
+
+message RegistAccountRequest {
+    string balance = 1;
+    int64 userId = 2;
+}
+
+message RegistAccountResponse {
+
+}
+
+message AccountRequest {
+    int64 userId = 1;
+}
+
+message AccountResponse {
+    int64 accountId = 1;
+    string accountNumber = 2;
+    bool isActive = 3;
+    string balance = 4;
+}
+
+message TransactionRequest {
+    string accountNumber = 1;
+    double amount = 2;
+}
+
+message TransactionResponse {
+    string accountNumber = 1;
+    double updatedBalance = 2;
+    string message = 3;
+}

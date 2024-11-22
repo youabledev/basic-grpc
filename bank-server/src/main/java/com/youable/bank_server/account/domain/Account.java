@@ -20,9 +20,6 @@ public class Account {
     @Column(nullable = false, unique = true, length = 20)
     private String accountNumber;
 
-    @Column(nullable = false, length = 50)
-    private String bankName;
-
     @Column(nullable = false)
     private BigDecimal balance;
 
